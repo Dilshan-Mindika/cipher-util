@@ -24,10 +24,10 @@ def main():
                     plaintext = getValidInput("Enter plaintext: ").upper()
                     ciphertext = encrypt(plaintext, keyword, vTable, vdict)
                     print("Ciphertext: ", ciphertext.lower())
-                # elif choice == 'D':
-                #     ciphertext = getValidInput("Enter ciphertext: ").upper()
-                #     plaintext = decrypt(ciphertext, keyword, vTable, vdict)
-                #     print("Plaintext: ", plaintext.lower())
+                elif choice == 'D':
+                    ciphertext = getValidInput("Enter ciphertext: ").upper()
+                    plaintext = decrypt(ciphertext, keyword, vTable, vdict)
+                    print("Plaintext: ", plaintext.lower())
                 elif choice == "EXIT":
                     break
         except KeyboardInterrupt:
@@ -46,11 +46,30 @@ def encrypt(plaintext, keyword, table, dict):
         keyword = shiftKeyword(keyword, 1)
     return ciphertext
 
+def decrypt(ciphertext, keyword, table, dict):
+    plaintext = ""
+    ciphertext = ciphertext.upper().replace(" ", "")
+    keyword = keyword.upper()
+    for key in ciphertext:
+        alphabet = createAlphabet(keyword[0], dict)
+        ciphertext_index = alphabet.index(key)
+        plaintext += table[0][ciphertext_index]
+        keyword = shiftKeyword(keyword, 1)
+    return ciphertext
+
 
 def shiftKeyword(keyword, shift):
     shiftedKeyword = keyword[shift:] + keyword[:shift]
     return shiftedKeyword
 
+def createAlphabet(key, dict):
+    alphabet = ""
+    swapped_dict = swapDict(dict)
+    start_value = dict[key]
+    for i in range(26):
+        next_value = (start_value + i) % 26
+        alphabet += swapped_dict[next_value]
+    return alphabet
 
 
 def createVigenereTable(keyword):
@@ -79,6 +98,23 @@ def createNormalVigenereTable():
         table.append(alphabet[i:] + alphabet[:i])
     return 
     
+
+def createDict(List):
+    dict = {}
+    for i, key in enumerate(List):
+        dict[key] == i
+    return dict
+
+
+def swapDict(dict):
+    swapped_dict = {value: key for key, value in dict.items()}
+    return swapped_dict
+
+
+def printTable(table):
+    for row in table:
+        print(row)
+
 def validateInput(text):
     for char in text:
         if not (char.isalpha() or char == ' '):
@@ -91,7 +127,7 @@ def getValidInput(prompt):
             user_input = input(prompt)
             if validateInput(user_input)
                 return user_input
-            print("CAREFUL:For the keyed alphabet, you need a word that doesn't contain duplicate letters. ")
+            print("Invalid input. Only letters and spaces are allowed. Please try again.")
         except KeyboardInterrupt:
             print("\nExiting...")
             raise
