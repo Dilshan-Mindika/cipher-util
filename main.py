@@ -83,14 +83,6 @@ def createVigenereTable(keyword):
         table.append(alphabet[i:] + alphabet[:i])
     return table
 
-def hasDuplicateLetter(text):
-    seen = set()
-    for char in text:
-        if char in seen:
-            return True
-        seen.add(char)
-    return False
-
 def createNormalVigenereTable():
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     table = []
@@ -115,6 +107,14 @@ def printTable(table):
     for row in table:
         print(row)
 
+def hasDuplicateLetter(text):
+    seen = set()
+    for char in text:
+        if char in seen:
+            return True
+        seen.add(char)
+    return False
+
 def validateInput(text):
     for char in text:
         if not (char.isalpha() or char == ' '):
@@ -132,8 +132,7 @@ def getValidInput(prompt):
             print("\nExiting...")
             raise
 
-
-
-
 if __name__ == "__main__":
     main()
+
+
