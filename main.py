@@ -8,7 +8,7 @@ def main():
             while True:
                 vKeyword = getValidInput("Enter keyword for Vigenere Table: ")
                 vKeyword = vKeyword.upper().replace(" ", "")
-                if not hasDuplicateLetters(vKeyword):
+                if not hasDuplicateLetter(vKeyword):
                     break
                 print("Keyword cannot contain duplicate letters. Please try again.")
             vTable = createVigenereTable(vKeyword)
@@ -55,7 +55,7 @@ def decrypt(ciphertext, keyword, table, dict):
         ciphertext_index = alphabet.index(key)
         plaintext += table[0][ciphertext_index]
         keyword = shiftKeyword(keyword, 1)
-    return ciphertext
+    return plaintext
 
 
 def shiftKeyword(keyword, shift):
@@ -88,13 +88,13 @@ def createNormalVigenereTable():
     table = []
     for i in range(26):
         table.append(alphabet[i:] + alphabet[:i])
-    return 
+    return table 
     
 
 def createDict(List):
     dict = {}
     for i, key in enumerate(List):
-        dict[key] == i
+        dict[key] = i
     return dict
 
 
@@ -125,7 +125,7 @@ def getValidInput(prompt):
     while True:
         try:
             user_input = input(prompt)
-            if validateInput(user_input)
+            if validateInput(user_input):
                 return user_input
             print("Invalid input. Only letters and spaces are allowed. Please try again.")
         except KeyboardInterrupt:
